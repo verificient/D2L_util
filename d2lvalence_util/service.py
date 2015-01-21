@@ -1754,3 +1754,12 @@ def get_lti_tool_providers_for_orgunit(uc,org_unit_id,ver='1.3',**kwargs):
 def get_lti_tool_provider_info(uc,org_unit_id,tool_provider_id,ver='1.3',**kwargs):
     route = '/d2l/api/le/{0}/lti/tp/{1}/{2}'.format(ver,org_unit_id,tool_provider_id)
     return d2ldata.LTITooProviderData(_get(route,uc,**kwargs))
+
+def create_lti_tool_provider(uc, org_unit_id, new_lti_tool_data, ver='1.3', **kwargs):
+    if not isinstance(new_lti_tool_data, d2ldata.LTIToolProviderCreateData):
+        raise TypeError('New module data must implement d2lvalence.data.LTIToolProviderCreateData').with_traceback(sys.exc_info()[2])
+    route = '/d2l/api/le/{0}/lti/tp/{1}'.format(ver, org_unit_id)
+    kwargs.setdefault('data', new_lti_tool_data.as_json())
+    kwargs.setdefault('headers', {})
+    kwargs['headers'].update({'Content-Type': 'application/json'})
+    return _post(route, uc, **kwargs)
