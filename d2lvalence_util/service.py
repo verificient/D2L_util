@@ -1740,6 +1740,14 @@ def get_ep_export_task_package(uc,export_task_id,ver='2.0',**kwargs):
 
 # LTI links
 
+def get_lti_link_for_orgunit(uc, org_unit_id, ver=1.3, **kwargs):
+    route = '/d2l/api/le/{0}/lti/link/{1}/'.format(ver, org_unit_id)
+    r = _get(route, uc, **kwargs)
+    result = []
+    for i in range(len(r)):
+        result.append(d2ldata.LTILinkData(r[i]))
+    return result
+
 # LTI Tool providers
 
 def get_lti_tool_providers_for_orgunit(uc,org_unit_id,ver='1.3',**kwargs):
