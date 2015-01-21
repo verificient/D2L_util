@@ -1748,6 +1748,16 @@ def get_lti_link_for_orgunit(uc, org_unit_id, ver=1.3, **kwargs):
         result.append(d2ldata.LTILinkData(r[i]))
     return result
 
+
+def create_lti_link(uc, org_unit_id, new_lti_tool_data, ver='1.3', **kwargs):
+    if not isinstance(new_lti_tool_data, d2ldata.CreateLTILinkData):
+        raise TypeError('New module data must implement d2lvalence.data.CreateLTILinkData').with_traceback(sys.exc_info()[2])
+    route = '/d2l/api/le/{0}/lti/link/{1}'.format(ver, org_unit_id)
+    kwargs.setdefault('data', new_lti_tool_data.as_json())
+    kwargs.setdefault('headers', {})
+    kwargs['headers'].update({'Content-Type': 'application/json'})
+    return _post(route, uc, **kwargs)
+
 # LTI Tool providers
 
 def get_lti_tool_providers_for_orgunit(uc,org_unit_id,ver='1.3',**kwargs):
@@ -1757,6 +1767,8 @@ def get_lti_tool_providers_for_orgunit(uc,org_unit_id,ver='1.3',**kwargs):
     for i in range(len(r)):
         result.append(d2ldata.LTIToolProviderData(r[i]))
     return result
+
+
 
 
 def get_lti_tool_provider_info(uc,org_unit_id,tool_provider_id,ver='1.3',**kwargs):
