@@ -1758,6 +1758,13 @@ def create_lti_link(uc, org_unit_id, new_lti_tool_data, ver='1.3', **kwargs):
     kwargs['headers'].update({'Content-Type': 'application/json'})
     return _post(route, uc, **kwargs)
 
+
+def create_lti_quicklink(uc, org_unit_id, lti_link_id, ver='1.3', **kwargs):
+    route = '/d2l/api/le/{0}/lti/quicklink/{1}/{2}'.format(ver, org_unit_id, lti_link_id)
+    kwargs.setdefault('headers', {})
+    kwargs['headers'].update({'Content-Length': '0'})
+    return _post(route, uc, **kwargs)
+
 # LTI Tool providers
 
 def get_lti_tool_providers_for_orgunit(uc,org_unit_id,ver='1.3',**kwargs):
@@ -1767,9 +1774,6 @@ def get_lti_tool_providers_for_orgunit(uc,org_unit_id,ver='1.3',**kwargs):
     for i in range(len(r)):
         result.append(d2ldata.LTIToolProviderData(r[i]))
     return result
-
-
-
 
 def get_lti_tool_provider_info(uc,org_unit_id,tool_provider_id,ver='1.3',**kwargs):
     route = '/d2l/api/le/{0}/lti/tp/{1}/{2}'.format(ver,org_unit_id,tool_provider_id)
