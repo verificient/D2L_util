@@ -1787,3 +1787,11 @@ def create_lti_tool_provider(uc, org_unit_id, new_lti_tool_data, ver='1.3', **kw
     kwargs.setdefault('headers', {})
     kwargs['headers'].update({'Content-Type': 'application/json'})
     return _post(route, uc, **kwargs)
+
+def get_course_quizes(uc, org_unit_id, ver='unstable', **kwargs):
+    route = '/d2l/api/le/{0}/{1}/quizzes/'.format(ver, org_unit_id)
+    return _get(route, uc, **kwargs)
+
+def get_quiz_details(uc, org_unit_id, quiz_id, ver='unstable', **kwargs):
+    route = '/d2l/api/le/{0}/{1}/quizzes/{2}/'.format(ver, org_unit_id, quiz_id)
+    return _get(route, uc, **kwargs)
